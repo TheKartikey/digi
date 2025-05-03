@@ -31,18 +31,14 @@ function App() {
     }
   }, []);
 
-  // Function to exchange the code for an access token
   const exchangeTokenFromCode = async (code) => {
-    console.log(code)
     try {
       const body = queryString.stringify({
         code,
         grant_type: 'authorization_code',
-        client_id: 'OBDC4736C5',
-        client_secret: 'bf3f87ea3d41be15b3bf',
         redirect_uri: 'https://digilockerauth.netlify.app/',
       });
-
+  
       const response = await axios.post(
         'https://digilocker.meripehchaan.gov.in/public/oauth2/1/token', // Endpoint for token exchange
         body,
@@ -50,9 +46,13 @@ function App() {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
+          auth: {
+            username: 'OBDC4736C5',  // Your client ID
+            password: 'bf3f87ea3d41be15b3bf',  // Your client secret
+          },
         }
       );
-
+  
       const data = response.data;
       console.log("✅ Token Received:", data);
       setAccessToken(data.access_token);  // Store the access token in the state
