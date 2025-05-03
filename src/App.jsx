@@ -4,28 +4,42 @@ import './App.css'
 
 function App() {
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const state = params.get("state");
-    const error = params.get("error");
+    const queryParams = queryString.parse(window.location.search);
+    const hashParams = queryString.parse(window.location.hash);
+    const params = { ...queryParams, ...hashParams };
 
-    console.log("🔁 DigiLocker  OAuth  Redirect  Response:");
-    console.log("Code:", code);
-    console.log("State:", state);
-    console.log("Error:", error);
+    const {
+      code,
+      state,
+      access_token,
+      expires_in,
+      token_type,
+      scope,
+      error,
+    } = params;
 
-    if (code) {
-      const deepLink = `nextride://callback?code=${code}&state=${state}`;
-      console.log("Redirecting to deep link:", deepLink);
-
-      window.location.href = deepLink;
+    if (error) {
+      console.error("❌ Error:", error);
+      alert("OAuth failed: " + error);
+      return;
     }
-  }, []);
 
+    let deepLink = "nextride://callback?";
+    if (code) {
+      deepLink += `code=${code}&state=${state}`;
+    } else if (access_token) {
+      deepLink += `access_token=${access_token}&expires_in=${expires_in}&token_type=${token_type}&scope=${scope}`;
+    }
+
+    console.log("🔁 OAuth params:", params);
+    console.log("🚀 Redirecting to deep link:", deepLink);
+
+    window.location.href = deepLink; // Trigger deep link to mobile app
+  }, []);
   return (
     <>
        <div>
-      <h2 style={{ color: "#1f4e78" }}>Processing DigiLocker Login...</h2>
+      <h2 style={{ color: "#1f4e78" }}>Processing DigiLocker Login.....</h2>
       <p style={{ color: "#1f4e7880" }}>
         Check console for OAuth code and redirecting to app.
       </p>
