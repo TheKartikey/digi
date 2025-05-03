@@ -33,13 +33,14 @@ function App() {
 
   // Function to exchange the code for an access token
   const exchangeTokenFromCode = async (code) => {
+    console.log(code)
     try {
       const body = queryString.stringify({
         code,
         grant_type: 'authorization_code',
-        client_id: 'YOUR_CLIENT_ID',
-        client_secret: 'YOUR_CLIENT_SECRET',
-        redirect_uri: 'YOUR_REDIRECT_URI',  // Make sure this matches your redirect URI in OAuth
+        client_id: 'OBDC4736C5',
+        client_secret: 'bf3f87ea3d41be15b3bf',
+        redirect_uri: 'https://digilockerauth.netlify.app/',
       });
 
       const response = await axios.post(
