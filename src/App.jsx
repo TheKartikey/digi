@@ -24,10 +24,13 @@ function DigiLockerAuth() {
   
   const getToken = async (code) => {
     try {
-      const response = await axios.post("/user/token", { code });
+      const response = await axios.post("https://backendserver.nextride.cloud/user/user-doc-update", { code });
+      console.log(response)
       console.log("Access token response:", response.data);
     } catch (err) {
-      console.error("Token exchange failed:", err);
+      console.log(err?.response);
+      console.log(err);
+      console.log(err?.response?.data || '');
     }
   };
   
