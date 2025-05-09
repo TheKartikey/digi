@@ -25,7 +25,7 @@ function DigiLockerAuth() {
   const getToken = async (code) => {
     try {
       const response = await axios({
-        method:"POST",
+        method:"post",
         url:'https://backendserver.nextride.cloud/user/api/digilocker',
         data:{
           code:code
