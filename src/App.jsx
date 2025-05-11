@@ -10,19 +10,20 @@ function DigiLockerAuth() {
     const fetchToken = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get("code");
-
+console.log(code)
       if (code) {
         setLoading(true);
+
         try {
           const response = await axios.post(
             "https://manager-server.onrender.com/teacher/digilocker",
             { code }
           );
-
+console.log(response)
           console.log("Access token response:", response.data);
           setTokenData(response.data);
         } catch (err) {
-          console.error("Error getting token:", err.response?.data || err.message);
+          console.log("Error getting token:", err.response?.data || err.message);
           setError("Failed to fetch DigiLocker token. Please try again.");
         } finally {
           setLoading(false);
